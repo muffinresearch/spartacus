@@ -35,6 +35,7 @@ define([
     events: {
       'click .cancel': 'delegateCancel',
       'click .cta:enabled': 'delegateSubmit',
+      'click .forgot-pin': 'navigateToForgotPin',
     },
 
     delegateCancel: function(e) {
@@ -47,6 +48,7 @@ define([
     },
 
     delegateSubmit: function(e) {
+      console.log('delegate form submit');
       e.preventDefault();
       if (this.$el.hasClass('stage-one')) {
         this.submitStageOne(pin.getPin());
@@ -62,6 +64,10 @@ define([
           pin.showError(this.gettext('Pins do not match'));
         }
       }
+    },
+
+    navigateToForgotPin: function() {
+      app.router.navigate('/reset-start', {trigger: true});
     },
 
     submitStageOne: function() {
@@ -123,6 +129,6 @@ define([
     }
 
   });
-  // Our module now returns our view
+
   return BasePinView;
 });

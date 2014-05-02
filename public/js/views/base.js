@@ -19,6 +19,11 @@ define([
     gettext: i18n.gettext,
     format: i18n.format,
 
+    initialize: function() {
+      // Unbind any current events as we create a new view.
+      $(this.el).unbind();
+    },
+
     setTitle: function setTitle(title) {
       // Update the title element in the page.
       $('title').text(prefix + title);
@@ -48,6 +53,8 @@ define([
       // Disconnect the view's event handlers.
       this.unbind();
     }
+
   });
+
   return BaseView;
 });

@@ -523,6 +523,56 @@ root: root
 };
 })();
 })();
+(function() {(window.nunjucksPrecompiled = window.nunjucksPrecompiled || {})["reset-start.html"] = (function() {function root(env, context, frame, runtime, cb) {
+var lineno = null;
+var colno = null;
+var output = "";
+try {
+env.getTemplate("base.html", true, function(t_2,parentTemplate) {
+if(t_2) { cb(t_2); return; }
+for(var t_1 in parentTemplate.blocks) {
+context.addBlock(t_1, parentTemplate.blocks[t_1]);
+}
+output += "\n";
+env.getTemplate("_macros.html", function(t_4,t_3) {
+if(t_4) { cb(t_4); return; }
+t_3.getExported(function(t_5,t_3) {
+if(t_5) { cb(t_5); return; }
+context.setVariable("macro", t_3);
+output += "\n\n";
+output += "\n";
+parentTemplate.rootRenderFunc(env, context, frame, runtime, cb);
+})})});
+} catch (e) {
+  cb(runtime.handleError(e, lineno, colno));
+}
+}
+function b_page(env, context, frame, runtime, cb) {
+var lineno = null;
+var colno = null;
+var output = "";
+try {
+output += "\n  <section class=\"content\">\n    <h1>";
+output += runtime.suppressValue((lineno = 5, colno = 16, runtime.callWrap(runtime.contextOrFrameLookup(context, frame, "gettext"), "gettext", ["Forgot your pin?"])), env.autoesc);
+output += "</h1>\n    <p>";
+output += runtime.suppressValue((lineno = 6, colno = 15, runtime.callWrap(runtime.contextOrFrameLookup(context, frame, "gettext"), "gettext", ["Are you sure you want to reset your pin? You must sign in to Persona to reset your pin."])), env.autoesc);
+output += "</p>\n  </section>\n\n  <menu class=\"buttons\" type=\"toolbar\">\n    ";
+output += runtime.suppressValue((lineno = 10, colno = 17, runtime.callWrap(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "macro")),"button", env.autoesc), "macro[\"button\"]", [(lineno = 10, colno = 25, runtime.callWrap(runtime.contextOrFrameLookup(context, frame, "gettext"), "gettext", ["Back"])),runtime.makeKeywordArgs({"modifier": "back"})])), env.autoesc);
+output += "\n    ";
+output += runtime.suppressValue((lineno = 11, colno = 17, runtime.callWrap(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "macro")),"button", env.autoesc), "macro[\"button\"]", [(lineno = 11, colno = 25, runtime.callWrap(runtime.contextOrFrameLookup(context, frame, "gettext"), "gettext", ["Continue"])),runtime.makeKeywordArgs({"modifier": "cta"})])), env.autoesc);
+output += "\n  </menu>\n";
+cb(null, output);
+;
+} catch (e) {
+  cb(runtime.handleError(e, lineno, colno));
+}
+}
+return {
+b_page: b_page,
+root: root
+};
+})();
+})();
 (function() {(window.nunjucksPrecompiled = window.nunjucksPrecompiled || {})["throbber.html"] = (function() {function root(env, context, frame, runtime, cb) {
 var lineno = null;
 var colno = null;

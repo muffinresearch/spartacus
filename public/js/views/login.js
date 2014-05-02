@@ -11,7 +11,6 @@ define([
   var console = log('view', 'login');
   var LoginView = BaseView.extend({
 
-
     initialize: function() {
       _.bindAll(this, 'renderTemplate', 'render');
     },
@@ -21,6 +20,7 @@ define([
     },
 
     handleSignIn: function(e) {
+      throbber.show(this.gettext('Connecting to Persona'));
       id.request();
       e.preventDefault();
     },

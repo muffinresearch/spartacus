@@ -1,6 +1,8 @@
 // Settings that can be consumed by client and server.
 var settings = {
-  // General Ajax timeout (Default 45G).
+  // Timeout for logout (Default 45s).
+  logout_timeout: 45000,
+  // General Ajax timeout (Default 45s).
   ajax_timeout: 45000,
   // Timeout for logins (Default 90s).
   login_timeout: 90000,

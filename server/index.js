@@ -11,6 +11,17 @@ var app = express();
 var env = new nunjucks.Environment(new nunjucks.FileSystemLoader(__dirname + '/templates'),
                                    {autoescape: true});
 
+var servedViews = [
+  'create-pin',
+  'enter-pin',
+  'locked',
+  'login',
+  'reset-pin',
+  'reset-start',
+  'wait-for-tx',
+  'was-locked',
+];
+
 app.use(require('connect-livereload')({
   port: config.liveReloadPort,
 }));
@@ -28,7 +39,7 @@ app.use(rewriteModule.getMiddleware([
   // 301 / -> /mozpay
   {from: '^/$', to: '/mozpay', redirect: 'permanent'},
   // Internally redirect urls to be handled by the client-side app serving view.
-  {from: '^/mozpay/(?:login|create-pin|enter-pin|reset-pin|locked|throbber|wait-for-tx|was-locked)$', to: '/mozpay'},
+  {from: '^/mozpay/(?:' + servedViews.join('|') + ')$', to: '/mozpay'},
 ]));
 
 app.get(/\/(?:css|fonts|i18n|images|js|lib)\/?.*/, express.static(__dirname + '/../public'));
@@ -42,10 +53,10 @@ app.get(/\/testlib\/?.*/, express.static(__dirname + '/../tests/static'));
 app.get(/\/unit\/?.*/, express.static(__dirname + '/../tests/'));
 
 // Fake API response.
-app.get('/mozpay/v1/api/pin/', function(req, res) {
+function FakeAPIResponse(req, res) {
 
   var result = {
-    pin: false,
+    pin: true,
     pin_is_locked_out: false,
     pin_was_locked_out: false,
     pin_locked_out: null
@@ -60,7 +71,10 @@ app.get('/mozpay/v1/api/pin/', function(req, res) {
   }
 
   res.send(result);
-});
+}
+app.get('/mozpay/v1/api/pin/', FakeAPIResponse);
+app.post('/mozpay/v1/api/pin/', FakeAPIResponse);
+app.post('/mozpay/v1/api/pin/check/', FakeAPIResponse);
 
 // Fake verification.
 app.post('/fake-verify', function (req, res) {
@@ -77,7 +91,7 @@ app.post('/fake-verify', function (req, res) {
 
 // Fake logout
 app.post('/logout', function (req, res) {
-  res.send({'msg': 'logout success'});
+  res.send('OK');
 });
 
 app.get('/unittests', function (req, res) {

@@ -22,6 +22,5 @@ define([
 
   });
 
-  // Our module now returns our view
   return ResetPinView;
 });

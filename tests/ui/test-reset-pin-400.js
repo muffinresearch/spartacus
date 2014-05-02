@@ -1,18 +1,31 @@
 var helpers = require('../helpers');
 
 helpers.startCasper('/mozpay', function(){
-  // Make pinStateCheck return false for pin.
-  helpers.fakePinData({pin: false});
-  // Make create-pin API call return 400
-  helpers.fakePinData({pin: false}, 'POST', 400);
+  // Make pinStateCheck return true for pin.
+  helpers.fakePinData({pin: true});
+  // Make reset-pin API call return 201
+  helpers.fakePinData({pin: true}, 'POST', 400, '/mozpay/v1/api/pin/reset/');
 });
 
-casper.test.begin('Create pin returns 400 (invalid data)', {
+casper.test.begin('Successful Pin Reset Flow', {
   test: function(test) {
 
     helpers.doLogin();
 
-    casper.waitForUrl('/mozpay/create-pin', function() {
+    casper.waitForUrl('/mozpay/enter-pin', function() {
+      test.assertVisible('.pinbox', 'Pin entry widget should be displayed');
+      test.assertVisible('.forgot-pin', 'Forgot link should be there');
+      this.click('.forgot-pin');
+    });
+
+    casper.waitForUrl('/mozpay/reset-start', function() {
+      // Should show message with cancel and continue.
+      test.assertVisible('.button.cancel', 'Cancel button should be present + visible.');
+      test.assertVisible('.button.cta', 'Continue button should be present + visible.');
+      this.click('.cta');
+    });
+
+    casper.waitForUrl('/mozpay/reset-pin', function() {
       test.assertVisible('.pinbox', 'Pin entry widget should be displayed');
       this.sendKeys('.pinbox', '1234');
       test.assertExists('.cta:enabled', 'Submit button is enabled');
@@ -30,7 +43,7 @@ casper.test.begin('Create pin returns 400 (invalid data)', {
     // Pin mis-match is covered priod to submission.
     casper.waitUntilVisible('.full-error', function() {
       test.assertVisible('.full-error', 'Error page should be shown');
-      helpers.assertErrorCode('PIN_CREATE_INVALID');
+      helpers.assertErrorCode('PIN_RESET_INVALID');
     });
 
     casper.run(function() {

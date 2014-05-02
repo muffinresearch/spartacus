@@ -1,16 +1,16 @@
 define([
-  'jquery',
-  'underscore',
   'backbone',
   'id',
+  'jquery',
   'lib/pin',
   'log',
   'models/base',
   'settings',
+  'underscore',
   'utils',
   'views/error-overlay',
   'views/throbber'
-], function($, _, Backbone, id, pin, log, BaseModel, settings, utils, ErrorOverlay, throbber){
+], function(Backbone, id, $, pin, log, BaseModel, settings, _, utils, ErrorOverlay, throbber){
 
   'use strict';
 
@@ -65,12 +65,15 @@ define([
         this.set('pin_is_locked_out', true);
       } else if (data.pin_was_locked_out === true) {
         this.set('pin_was_locked_out', true);
+      } else if (data.pin === true && Backbone.history.fragment === 'reset-start') {
+        console.log('User has a pin so forceNavigate to /reset-start');
+        app.router.forceNavigate('/reset-start');
       } else if (data.pin === true) {
-        console.log('User has a pin so navigate to /enter-pin');
-        return app.router.navigate('/enter-pin', {trigger: true});
+        console.log('User has a pin so forceNavigate to /enter-pin');
+        app.router.forceNavigate('/enter-pin');
       } else {
-        console.log('User has no pin so navigate to /create-pin');
-        return app.router.navigate('/create-pin', {trigger: true});
+        console.log('User has no pin so forceNavigate to /create-pin');
+        app.router.forceNavigate('/create-pin');
       }
     },
 
@@ -145,14 +148,16 @@ define([
     },
 
     // Runs the logout for the user.
-    logoutHandler: function() {
-      this.set({'logged_in': false});
+    logoutHandler: function(updateAttr) {
+      updateAttr = (typeof updateAttr === 'undefined') ? true : updateAttr;
+      if (updateAttr) {
+        this.set({'logged_in': false});
+      }
       this.resetUser();
     },
 
     // Carries out resetting the user.
     // TODO: Needs timers.
-    // TODO: Maybe move this to auth module?
     resetUser: function _resetUser() {
       console.log('Begin webpay user reset');
 
@@ -174,6 +179,7 @@ define([
       });
       return req;
     },
+
 
     checkPin: function(pinData) {
 
@@ -356,10 +362,7 @@ define([
       });
     },
 
-
-    // Handle login from id.watch. Here is where verification occurs.
     // TODO: needs timers.
-    // TODO: maybe move this to auth module?
     loginHandler: function(assertion) {
       var console = log('xhr', 'assertion-verification');
 

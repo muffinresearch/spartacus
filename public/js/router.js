@@ -10,9 +10,11 @@ define([
   'views/locked',
   'views/login',
   'views/reset-pin',
+  'views/reset-start',
+  'views/throbber',
   'views/wait-for-tx',
   'views/was-locked',
-], function(Backbone, i18n, $, log, _, utils, CreatePinView, EnterPinView, LockedView, LoginView, ResetPinView, WaitView, WasLockedView){
+], function(Backbone, i18n, $, log, _, utils, CreatePinView, EnterPinView, LockedView, LoginView, ResetPinView, ResetStartView, throbber, WaitView, WasLockedView){
 
   'use strict';
 
@@ -38,8 +40,12 @@ define([
       }
       this.after.apply(this, args);
     },
+
     before: function(){},
     after: function(){},
+
+    currentView: null,
+
   });
 
   var AppRouter = BaseRouter.extend({
@@ -47,13 +53,14 @@ define([
 
     routes: {
       '': 'showIndex',
-      'login': 'showLogin',
       'create-pin': 'showCreatePin',
       'enter-pin': 'showEnterPin',
-      'reset-pin': 'showResetPin',
       'locked': 'showLocked',
-      'was-locked': 'showWasLocked',
+      'login': 'showLogin',
+      'reset-pin': 'showResetPin',
+      'reset-start': 'showResetStart',
       'wait-for-tx': 'showWaitForTX',
+      'was-locked': 'showWasLocked',
     },
 
     before: function() {
@@ -61,7 +68,6 @@ define([
       // routing until it is.
       if (app.user.get('logged_in') === null) {
         console.log('Preventing navigation as logged_in state is unknown.');
-        this.navigate('', {replace: true});
         return false;
       }
       // If logged_in state is false then we need to always show the login page.
@@ -71,6 +77,16 @@ define([
         this.navigate('/login', {trigger: true});
         return false;
       }
+    },
+
+    /*
+     * Special navigation function that will navigates to route to
+     * ensure a view is called even if we're already on the same url.
+     */
+    forceNavigate: function(path, config) {
+      config = config || {trigger: true};
+      this.navigate('', {replace: true});
+      this.navigate(path, config);
     },
 
     showLogin: function() {
@@ -97,6 +113,11 @@ define([
       resetPinView.render();
     },
 
+    showResetStart: function() {
+      var resetStartView = new ResetStartView();
+      resetStartView.render();
+    },
+
     showLocked: function() {
       var lockedView = new LockedView();
       lockedView.render();
@@ -111,6 +132,12 @@ define([
       var waitView = new WaitView();
       waitView.render();
     },
+
+    showIndex: function() {
+      // Default page will just show "Loading..."
+      console.log('Showing default throbber');
+      throbber.show();
+    }
 
   });
 
