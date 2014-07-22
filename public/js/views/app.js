@@ -10,7 +10,6 @@ define([
   'models/transaction',
   'router',
   'settings',
-  'textoverflow',
   'underscore',
   'utils',
   'views/throbber',
@@ -27,7 +26,6 @@ define([
   TransactionModel,
   AppRouter,
   settings,
-  textoverflow,
   _,
   utils,
   ThrobberView,
@@ -51,6 +49,9 @@ define([
       var view = new ViewClass(options);
       this.currentView = view;
       view.render();
+      if (view.onRender) {
+        view.onRender();
+      }
     };
   };
 
@@ -80,16 +81,6 @@ define([
       // a specific view to start on. Only views added to
       // app.router.mapping are allowed.
       this.startView = utils.bodyData.startView || null;
-
-      // Setup the listeners for overflow in the buttons
-      $('.buttons').on('textoverflow', function(e) {
-        $(e.target).addClass('overflow');
-      }).on('textunderflow', function(e) {
-        $(e.target).removeClass('overflow');
-      });
-
-      // Init the textoverflow detection.
-      textoverflow.init();
 
       return this;
     },

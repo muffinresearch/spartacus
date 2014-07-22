@@ -1,11 +1,13 @@
 define([
   'auth',
+  'jquery',
   'log',
+  'text-overflow',
   'settings',
   'underscore',
   'utils',
   'views/base'
-], function(auth, log, settings, _, utils, BaseView){
+], function(auth, $, log, textoverflow, settings, _, utils, BaseView){
 
   'use strict';
 
@@ -155,6 +157,22 @@ define([
         return app.error.render({errorCode: 'MISSING_JWT'});
       }
     },
+
+    onRender: function() {
+      console.log('Setting up text-overflow');
+      $('.buttons').on('textoverflow', function(e) {
+        $(e.target).addClass('overflow');
+      }).on('textunderflow', function(e) {
+        $(e.target).removeClass('overflow');
+      });
+      textoverflow.init();
+    },
+
+    onClose: function() {
+      console.log('Calling onClose');
+      //textoverflow.destroy();
+      $('.buttons').unbind('textoverflow', 'textunderflow');
+    }
 
   });
 
