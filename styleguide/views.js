@@ -32,6 +32,14 @@ module.exports = {
     });
   },
 
+  textoverflow: function(req, res) {
+    res.render('behaviour/text-overflow.html', {
+      code: utils.prettyTemplateRender('error.html', req, context.textoverflow),
+      iframe: 'text-overflow',
+      active_page: 'text-overflow'
+    });
+  },
+
   throbber: function(req, res) {
     res.render('pages/throbber.html', {
       code: utils.prettyTemplateRender('throbber.html', req),

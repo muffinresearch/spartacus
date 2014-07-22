@@ -10,11 +10,29 @@ define([
   'models/transaction',
   'router',
   'settings',
+  'textoverflow',
   'underscore',
   'utils',
   'views/throbber',
   'views/error'
-], function(auth, Backbone, cancel, i18n, $, log, PinModel, SessionModel, TransactionModel, AppRouter, settings, _, utils, ThrobberView, ErrorView) {
+], function(
+  auth,
+  Backbone,
+  cancel,
+  i18n,
+  $,
+  log,
+  PinModel,
+  SessionModel,
+  TransactionModel,
+  AppRouter,
+  settings,
+  textoverflow,
+  _,
+  utils,
+  ThrobberView,
+  ErrorView
+) {
 
   'use strict';
 
@@ -62,6 +80,16 @@ define([
       // a specific view to start on. Only views added to
       // app.router.mapping are allowed.
       this.startView = utils.bodyData.startView || null;
+
+      // Setup the listeners for overflow in the buttons
+      $('.buttons').on('textoverflow', function(e) {
+        $(e.target).addClass('overflow');
+      }).on('textunderflow', function(e) {
+        $(e.target).removeClass('overflow');
+      });
+
+      // Init the textoverflow detection.
+      textoverflow.init();
 
       return this;
     },

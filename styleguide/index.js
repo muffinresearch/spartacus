@@ -31,7 +31,7 @@ app.use(rewriteModule.getMiddleware([
   {from: '^/lib/css/fonts/(.*)', to: '/lib/fonts/bootstrap/$1'},
 ]));
 
-app.get(/\/(?:css|fonts|i18n|images)\/?.*/, express.static(__dirname + '/../public'));
+app.get(/\/(?:js|css|fonts|i18n|images)\/?.*/, express.static(__dirname + '/../public'));
 app.get(/\/(?:lib|src)\/?.*/, express.static(__dirname + '/static'));
 
 app.get('/', views.index);
@@ -44,6 +44,7 @@ app.get('/typography', views.typography);
 app.get('/throbber', views.throbber);
 app.get('/was-locked', views.waslocked);
 app.get('/locked', views.locked);
+app.get('/text-overflow', views.textoverflow);
 
 // Iframed Example Pages
 app.get('/if/buttons', viewsiframe.buttons);
@@ -53,9 +54,8 @@ app.get('/if/typography', viewsiframe.typography);
 app.get('/if/throbber', viewsiframe.throbber);
 app.get('/if/was-locked', viewsiframe.waslocked);
 app.get('/if/locked', viewsiframe.locked);
+app.get('/if/text-overflow', viewsiframe.textoverflow);
 
 http.createServer(app).listen(config.styleguide.port, function() {
   console.log('Listening on port: ' + config.styleguide.port);
 });
-
-

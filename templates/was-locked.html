@@ -7,7 +7,7 @@
     <p>{{ gettext('Your PIN was locked because you entered it incorrectly too many times. You can continue and try entering your PIN again or reset your PIN.') }}</p>
   </section>
 
-  <menu class="buttons" type="toolbar">
+  <menu class="buttons check-overflow" type="toolbar" data-overflow-group-selector="button">
     {{ macro.button(gettext('Reset PIN'), modifier='reset-start') }}
     {{ macro.button(gettext('Continue'), modifier='cta') }}
   </menu>

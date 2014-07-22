@@ -30,4 +30,7 @@ module.exports = {
     res.render('iframed/locked.html', context.locked);
   },
 
+  textoverflow: function(req, res) {
+    res.render('iframed/text-overflow.html', context.textoverflow);
+  },
 };

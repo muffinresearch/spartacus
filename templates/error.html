@@ -12,7 +12,7 @@
     </div>
   </section>
 
-  <menu class="buttons" type="toolbar">
+  <menu class="buttons check-overflow" type="toolbar" data-overflow-group-selector="button">
     {% if showCancel %}
       {{ macro.button(cancelText, modifier=cancelModifier) }}
     {% endif %}

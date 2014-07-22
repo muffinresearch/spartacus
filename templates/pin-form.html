@@ -22,7 +22,7 @@
 </section>
 
 {% block buttons %}
-<menu class="buttons" type="toolbar">
+<menu class="buttons check-overflow" type="toolbar" data-overflow-group-selector="button">
   {{ macro.button(gettext('Cancel'), modifier='cancel') }}
   {{ macro.button(ctaText, modifier='cta', disabled=true) }}
 </menu>

@@ -30,6 +30,7 @@
       'query-string': '../lib/js/query-string/query-string',
       'require': '../lib/js/requirejs/require',
       'tracking': 'lib/tracking',
+      'text-overflow': 'lib/text-overflow',
       'underscore': '../lib/js/underscore/underscore',
       'utils': 'lib/utils',
       'wait': 'lib/wait'

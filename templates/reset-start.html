@@ -7,7 +7,7 @@
     <p>{{ gettext('Are you sure you want to reset your PIN? You must sign in to Persona to reset your PIN.') }}</p>
   </section>
 
-  <menu class="buttons" type="toolbar">
+  <menu class="buttons check-overflow" type="toolbar" data-overflow-group-selector="button">
     {{ macro.button(gettext('Back'), modifier='back') }}
     {{ macro.button(gettext('Reset'), modifier='cta') }}
   </menu>

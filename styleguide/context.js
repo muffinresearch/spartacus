@@ -25,6 +25,15 @@ module.exports = {
     showCancel: true,
     cancelText: 'OK',
     cancelModifier: 'cancel cta',
+  },
+  textoverflow: {
+    pageclass: 'full-error',
+    heading: 'Text Overflow Example',
+    errorCode: "ERROR_CODE",
+    msg: 'Change the size of the screen representation to see how the button layout changes.',
+    showCta: true,
+    showCancel: true,
+    cancelText: 'A long cancel button',
+    ctaText: 'Something quite long'
   }
-
 };
